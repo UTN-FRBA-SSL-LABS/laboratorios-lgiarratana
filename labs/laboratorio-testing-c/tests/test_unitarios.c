@@ -18,27 +18,54 @@ void test_agregar_uno(void) {
     Carrito c;
     carrito_init(&c);
     Producto p = {"Leche", 350, 1};
-    ASSERT_IGUAL(1, carrito_agregar(&c, p));   /* devuelve 1 = exito */
+    ASSERT_IGUAL(1, carrito_agregar(&c, p));
     ASSERT_IGUAL(1, carrito_contar(&c));
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
- *  PARTE A — Agregar el siguiente test (ver README.md, Parte 4)
+ *  PARTE A
  * ═══════════════════════════════════════════════════════════════════════════ */
 
-/* TODO: pegar aqui la funcion test_total_precio_unitario() */
+void test_total_precio_unitario(void) {
+    printf("\n[total: un producto, cantidad 1]\n");
+    Carrito c;
+    carrito_init(&c);
+    Producto p = {"Leche", 350, 1};
+    carrito_agregar(&c, p);
+    ASSERT_IGUAL(350, carrito_total(&c));
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
- *  PARTE B — Completar los blancos (ver README.md, Parte 5)
+ *  PARTE B
  * ═══════════════════════════════════════════════════════════════════════════ */
 
-/* TODO: pegar y completar la funcion test_total_con_cantidad() */
+void test_total_con_cantidad(void) {
+    printf("\n[total: un producto, cantidad 2]\n");
+    Carrito c;
+    carrito_init(&c);
+    Producto p = {"Leche", 350, 2};
+    carrito_agregar(&c, p);
+    ASSERT_IGUAL(700, carrito_total(&c));
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
- *  PARTE C — Escribir un test propio (ver README.md, Parte 7)
+ *  PARTE C
  * ═══════════════════════════════════════════════════════════════════════════ */
 
-/* TODO: escribir test_carrito_lleno() */
+void test_carrito_lleno(void) {
+    printf("\n[carrito lleno]\n");
+    Carrito c;
+    carrito_init(&c);
+
+    Producto p = {"Leche", 350, 1};
+
+    carrito_agregar(&c, p);
+    carrito_agregar(&c, p);
+    carrito_agregar(&c, p);
+    carrito_agregar(&c, p);
+
+    ASSERT_IGUAL(0, carrito_agregar(&c, p));
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
  *  main
@@ -46,12 +73,13 @@ void test_agregar_uno(void) {
 
 int main(void) {
     printf("=== Tests unitarios ===");
+
     test_carrito_nuevo();
     test_agregar_uno();
-    /* Descomentar a medida que agregues las funciones: */
-    /* test_total_precio_unitario(); */
-    /* test_total_con_cantidad();    */
-    /* test_carrito_lleno();         */
+    test_total_precio_unitario();
+    test_total_con_cantidad();
+    test_carrito_lleno();
+
     RESUMEN();
     return EXIT_CODE();
 }
