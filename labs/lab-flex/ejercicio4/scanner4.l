@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
- /* Definición de tokens */
+/* Definición de tokens */
 enum yytokentype {
     NUMBER = 258,
-    /* TODO 1 — Agregar IDENT = 259 en el enum */
+    IDENT = 259
 };
 
 int yylval;
@@ -20,30 +20,37 @@ identificador   {letra}({letra}|{digito})*
 
 %%
 
- /* Reglas ya implementadas */
-{digito}+  {
+/* Número */
+{digito}+ {
     yylval = atoi(yytext);
     printf("TOKEN NUMBER (%d) valor=%d\n", NUMBER, yylval);
     return NUMBER;
 }
 
-"+"  { printf("TOKEN '+'\n"); return '+'; }
-"-"  { printf("TOKEN '-'\n"); return '-'; }
-"*"  { printf("TOKEN '*'\n"); return '*'; }
-"/"  { printf("TOKEN '/'\n"); return '/'; }
+/* Operadores */
+"+" { printf("TOKEN '+'\n"); return '+'; }
+"-" { printf("TOKEN '-'\n"); return '-'; }
+"*" { printf("TOKEN '*'\n"); return '*'; }
+"/" { printf("TOKEN '/'\n"); return '/'; }
 
- /* TODO 2 — Agregar la regla para identificador que retorne el token IDENT
-   Acción esperada: printf("TOKEN IDENT (%d) lexema=%s\n", IDENT, yytext);
-   Y retornar IDENT.                                                        */
+/* Identificador */
+{identificador} {
+    printf("TOKEN IDENT (%d) lexema=%s\n", IDENT, yytext);
+    return IDENT;
+}
 
-[ \t\n]  { }
+/* Ignorar espacios */
+[ \t\n] { }
 
-.  { printf("caracter no reconocido: %s\n", yytext); }
+/* Caracteres no reconocidos */
+. { printf("caracter no reconocido: %s\n", yytext); }
 
 %%
 
 int main(void) {
     int token;
+
     while ((token = yylex()) != 0) { }
+
     return 0;
 }

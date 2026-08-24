@@ -10,29 +10,37 @@
  /* Definición ya dada como ejemplo: */
 digitoHexa      [0-9a-fA-F]
 
- /* TODO 1 — Definir 'digito' como cualquier dígito decimal [0-9]        */
-
- /* TODO 2 — Definir 'letra' como letra mayúscula, minúscula o guión bajo */
-
- /* TODO 3 — Definir 'identificador' usando {letra} y {digito}
-   Pista: empieza con {letra}, seguido de cero o más ({letra}|{digito}) */
+ /* Definiciones completadas */
+digito          [0-9]
+letra           [a-zA-Z_]
+identificador   {letra}({letra}|{digito})*
 
 %%
 
  /* ── Reglas usando las definiciones ─────────────────────────────────── */
 
- /* Regla ya dada como ejemplo: usa {digitoHexa} y muestra yyleng */
-0[xX]{digitoHexa}+  { printf("constante hexadecimal de longitud %d: %s\n", yyleng, yytext); }
+ /* Constante hexadecimal */
+0[xX]{digitoHexa}+ {
+    printf("constante hexadecimal de longitud %d: %s\n", yyleng, yytext);
+}
 
- /* TODO 4 — Regla para constante decimal usando {digito}
-   Pista: empieza con dígito 1-9 (no cero), seguido de cero o más {digito}
-   Acción esperada: printf("constante decimal de longitud %d: %s\n", yyleng, yytext);    */
+ /* Constante decimal */
+[1-9]{digito}* {
+    printf("constante decimal de longitud %d: %s\n", yyleng, yytext);
+}
 
- /* TODO 5 — Regla para identificador usando {identificador}
-   Acción esperada: printf("identificador de longitud %d: %s\n", yyleng, yytext);        */
+ /* Identificador */
+{identificador} {
+    printf("identificador de longitud %d: %s\n", yyleng, yytext);
+}
 
+ /* Ignorar espacios, tabulaciones y saltos de línea */
 [ \t\n]     { }
-.           { printf("caracter no reconocido: %s\n", yytext); }
+
+ /* Caracteres no reconocidos */
+. {
+    printf("caracter no reconocido: %s\n", yytext);
+}
 
 %%
 
